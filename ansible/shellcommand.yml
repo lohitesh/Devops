@@ -1,0 +1,28 @@
+---
+- hosts: all
+  tasks:
+    - name: apache_install
+      apt:
+        name: apache2
+        state: present
+    - command: systemcl status apache2
+      register: apache_service
+    - debug:
+      var: apache_service.stdout_line
+    - name: checking date
+      shell:
+        "date"
+      register: datecmd
+    - debug: 
+        var: datecmd.stdout_lines
+    - name: listing_files
+      shell: ls
+      register: list_values
+    - debug:
+        var: list_values
+    - name: displaying_files
+      shell: cat "{{ item }}"
+      with_items: "{{ list_values.stdout_lines }}"
+      register: cat_output
+    - debug:
+        var: cat_output
