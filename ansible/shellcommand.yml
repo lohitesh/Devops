@@ -8,7 +8,7 @@
     - command: systemcl status apache2
       register: apache_service
     - debug:
-      var: apache_service.stdout_line
+      var: apache_service.stdout_lines
     - name: checking date
       shell:
         "date"
