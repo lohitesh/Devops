@@ -1,0 +1,8 @@
+---
+- hosts: all
+  tasks:
+    - name: packages
+      apt:
+        name: git
+        state: latest
+      become: yes    
