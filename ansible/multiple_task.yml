@@ -1,0 +1,17 @@
+---
+- hosts: all
+  tasks:
+    - name: install a git
+      apt:
+        name: git
+        state: present
+    - name: copy a file
+      copy: 
+        src: /home/ubuntu/2.txt
+        dest: /home/ubuntu/
+    - name: changing the file mode 
+      file:
+        path: /home/ubuntu/1.txt
+        mode: 0764
+        owner: root
+        group: root
