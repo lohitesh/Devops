@@ -6,6 +6,6 @@
       set_fact:
     	  dir_path: "/home/ubunut/testing"
     - name: "Creating {{ dir_path }} directory"
-  	  file:
+      file:
     	  path: "{{ dir_path }}"
     	  state: directory
