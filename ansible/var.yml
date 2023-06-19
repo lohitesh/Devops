@@ -1,0 +1,11 @@
+---
+- hosts: all
+  gather_facts: no
+  tasks:
+    - name: initialize directory path
+  	  set_fact:
+    	  dir_path: "/home/ubunut/testing"
+    - name: "Creating {{ dir_path }} directory"
+  	  file:
+    	  path: "{{ dir_path }}"
+    	  state: directory
