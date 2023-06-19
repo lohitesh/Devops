@@ -15,3 +15,15 @@
         mode: 0764
         owner: root
         group: root
+    - name: create a new file with new content
+      copy: 
+        content: "Welcome" 
+        dest: "/home/ubuntu/new.txt"
+        backup: yes
+        owner: root
+        group: root
+        mode: 0644
+    - name: to copy a template
+      template:
+        src: /home/ubuntu/1.j2
+        dest: /home/ubuntu/
