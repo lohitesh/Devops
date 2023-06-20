@@ -1,0 +1,10 @@
+---
+- hosts: all
+  tasks: 
+    - name: testing
+      shell: uptime
+      register: uptime_message
+      changed_when: "'success' in  uptime_message"
+    - name: print message
+      debug:
+        msg: "{{ uptime_message }}"
