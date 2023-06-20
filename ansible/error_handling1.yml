@@ -1,0 +1,13 @@
+---
+- hosts: all
+  tasks:
+    - name: wrong package install
+      apt: 
+        name: git1
+        state: present
+      ignore_errors: yes
+      register: error_message
+    - name: print
+      debug:
+        msg: "{{ error_message }}"
+    
