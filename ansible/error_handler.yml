@@ -1,0 +1,15 @@
+---
+- hosts: all
+  force_handlers: yes
+  tasks:
+    - name: List files
+      shell: ls
+      notify: show_msg
+    - name: wrong package
+      apt:
+        name: git
+        state: presnt
+  handlers:
+    - name: show_msg
+      debug:
+        msg: "Listed files"
