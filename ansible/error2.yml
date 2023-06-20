@@ -8,3 +8,19 @@
     - name: print message
       debug:
         msg: "{{ uptime_message }}"
+
+    - name: error_message
+      copy:
+        src: /home/ubunut/test.txt
+        dest:/home/ubuntu/
+      register: copy_res
+      ignore_errors: true
+
+    - name: error with failed_when
+      copy:
+        src: /home/ubuntu/test.txt
+        dest: /home/ubuntu
+      failed_when:
+        - copy_res.failed == true
+        - '"could not find or access" in copy_res.msg'
+      any_errors_fatal: false
