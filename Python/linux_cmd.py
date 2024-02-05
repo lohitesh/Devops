@@ -15,3 +15,7 @@ for cmd in command:
     print(result.stdout)
     print(result.stderr, end='')
   # end='' used to remove newline
+#subprocess.run() is used to run the specified command.
+#The shell=True parameter indicates that the command should be run in a shell.
+#The check=True parameter raises a CalledProcessError if the command returns a non-zero exit code, indicating an error.
+#The text=True parameter ensures that the output is returned as a string.
