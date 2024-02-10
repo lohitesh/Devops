@@ -2,7 +2,13 @@
 - hosts: all
   tasks:
     - name: apache_install
+      when: ansible_distribution == "Ubuntu"
       apt:
+        name: apache2
+        state: present
+    - name: apache_install
+      when: ansible_distribution == "centos"
+      yum:
         name: apache2
         state: present
     - command: systemcl status apache2
