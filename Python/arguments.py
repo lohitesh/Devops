@@ -1,3 +1,4 @@
+#python arguments.py aa bb --version 2.0
 import argparse
 subparse = argparse.ArgumentParser(description="CLI for finding and starting pipeline")
 subparse.add_argument("grpId", help="It will contain groupID")
