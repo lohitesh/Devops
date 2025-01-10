@@ -1,0 +1,15 @@
+---
+- hosts: all
+  tasks:
+    - name: package installation
+      apt:
+        name: git
+        state: present
+      notify: show_msg
+  handlers:
+    - name: show_msg
+      debug:
+        msg: "Listed files"
+
+
+#handlers will execute only when there is changed in state means in package task if changed = 1 then only handler will execute if changed = 0 then handler will not execute even after called using notify
