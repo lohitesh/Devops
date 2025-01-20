@@ -1,0 +1,20 @@
+---
+- name: Install packages on servers
+  hosts: all
+  become: true
+  tasks:
+    - name: Install JDK
+      apt:
+        name: openjdk-11-jdk
+        state: present
+    - name: Install Maven
+      apt:
+        name: maven
+        state: present
+    - name: Install Python
+      apt:
+        name: python3
+        state: present
+      when: inventory_hostname != "server1"
+
+#In Ansible, you have 10 servers listed in your inventory file, and you need to install JDK, Maven, and Python on all of them. However, for one specific server (e.g., server1), you only want to install JDK and Maven, but not Python. How can you achieve this without grouping the servers in the inventory file?
