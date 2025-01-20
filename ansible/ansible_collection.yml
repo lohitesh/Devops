@@ -1,0 +1,147 @@
+Install and Start a Service
+
+		---
+		- name: Install and start nginx service
+		  hosts: all
+		  become: yes
+		  tasks:
+			- name: Install nginx
+			  ansible.builtin.apt:
+				name: nginx
+				state: present
+
+			- name: Ensure nginx service is running
+			  ansible.builtin.systemd:
+				name: nginx
+				state: started
+				enabled: yes
+
+		---
+		- name: Install and start nginx service
+		  hosts: all
+		  become: yes
+		  tasks:
+			- name: Update apt package cache
+			  shell: apt-get update
+
+			- name: Install nginx
+			  shell: apt-get install -y nginx
+
+			- name: Start nginx service
+			  shell: systemctl start nginx
+
+			- name: Enable nginx service to start on boot
+			  shell: systemctl enable nginx
+			  
+			  
+ansible all -m ansible.builtin.apt -a "name=nginx state=present" --become
+ansible all -m ansible.builtin.systemd -a "name=nginx state=started enabled=yes" --become
+
+
+
+########################################################################################################################################		
+		
+
+Playbook: Run Shell Command
+---
+- name: Run a shell command
+  hosts: all
+  become: yes
+  tasks:
+    - name: Run 'uptime' command
+      ansible.builtin.shell: uptime
+      register: uptime_output
+
+    - name: Show uptime
+      ansible.builtin.debug:
+        msg: "Uptime: {{ uptime_output.stdout }}"
+		
+---
+- name: Run a shell command
+  hosts: all
+  become: yes
+  tasks:
+    - name: Run 'uptime' command
+      shell: uptime
+      register: uptime_output
+
+    - name: Show uptime
+      debug:
+        msg: "Uptime: {{ uptime_output.stdout }}"
+
+#####################################################################################################################################################
+		
+		
+ Create a New User
+---
+- name: Create a new user on Ubuntu
+  hosts: all
+  become: yes
+  tasks:
+    - name: Add new user 'developer'
+      ansible.builtin.user:
+        name: developer
+        state: present
+        shell: /bin/bash
+        groups: sudo
+		
+
+---
+- name: Create a new user on Ubuntu
+  hosts: all
+  become: yes
+  tasks:
+    - name: Add new user 'developer'
+      shell: useradd -m -s /bin/bash developer
+
+    - name: Add 'developer' user to sudo group
+      shell: usermod -aG sudo developer
+	  
+######################################################################################################################################################
+
+
+======================================================================================================================================================
+
+2.Community.general Collection : 
+
+---
+- hosts: localhost
+  collections:
+    - community.general
+  tasks:
+    - name: Check if Google is reachable
+      uri:
+        url: https://www.google.com
+      register: google_status
+
+    - debug:
+        msg: "Google status: {{ google_status.status }}"
+		
+
+
+Managing temporary directories with specific prefixes:
+**********************************************************************************************
+---
+- hosts: localhost
+  collections:
+    - community.general
+  tasks:
+    - name: Create temporary directory with prefix (community.general)
+      tempfile:
+        state: directory
+        prefix: my_app_
+      register: temp_dir
+      become: yes
+
+    - debug:
+        msg: "Temporary directory: {{ temp_dir.path }}"
+
+
+---
+- hosts: localhost
+  tasks:
+    - name: Create temporary directory (Core Ansible - Less Control)
+      tempfile:
+        state: directory
+      register: temp_dir # No prefix control
+      become: yes
