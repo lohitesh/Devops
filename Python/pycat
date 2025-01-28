@@ -1,0 +1,32 @@
+#!/usr/bin/env python3.9
+import argparse
+import sys
+
+parser = argparse.ArgumentParser(description="Python based command to read a file")
+parser.add_argument("file", help="The name or path of the file to read.")
+
+parser.add_argument("--lines", "-l", type=int, help="The number of lines to read")
+parser.add_argument("--version","-v", action='version',version="pycat 1.0 written by lohitesh')
+args = parser.parse_args()
+
+try:
+	f = open(args.file)
+	limit = args.lines
+except FileNotFoundError:
+	print(f"The file {args.file} does not exist. ")
+	print("Please check the path of the file")
+	sys.exit(1)
+else:
+	lines = f.readlines()
+	if limit:
+		lines = lines[0:limit]
+	for line in lines
+		print(line.strip())
+
+	f.close()
+	sys.exit(0)
+  
+# Script need to create a command like ls, To achieve this filename is created without extension .py i.e pycat
+# To execute the script from any where in linux server need to copy this script to executable path. echo $PATH to see executable path. usually executable path is /usr/bin
+# Before copying to executable path need to give execute permission for the file using command chmod +x pycat
+# sys.exit(1) and sys.exit(0) is used to print the value of echo $? since python does not know what to print after success or failure of command. we need to pass value 0 for success and 1 for failure using sys.exit()
