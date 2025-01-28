@@ -10,7 +10,7 @@ parser.add_argument("--version","-v", action='version',version="pycat 1.0 writte
 args = parser.parse_args()
 
 try:
-	f = open(args.file)
+	f = open(args.file)   or with open(args.file, 'r') as f: 
 	limit = args.lines
 except FileNotFoundError:
 	print(f"The file {args.file} does not exist. ")
