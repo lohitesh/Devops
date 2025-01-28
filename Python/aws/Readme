@@ -1,0 +1,16 @@
+boto3 is the module which is used to interface python with aws services
+required awsec2fullaccess and awss3fullaccess under iam policy
+
+pip3 install boto3 to install the module boto3
+
+under /root directory create .aws directory which contain two files config and credentials
+
+config file contain
+[default]
+region = ap-south-1
+
+credentials file contain
+[default]
+aws_access_key_id = aaaaaaa
+aws_secret_access_key = fhdhdfhdhd
+
