@@ -14,7 +14,8 @@ ec2 = boto3.resource("ec2")
 
 ec2.create_instances(ImageId=args.ami, InstanceType=args.type, KeyName=args.key, MinCount=args.min, MaxCount=args.max)
 print("EC2 instance created")
-print(f"Instance type: {args.type}")
+print(f"Instance type: {args.type}"
+
 print(f"Key Used: {args.key}")
 print(f"Number of Instances: {args.max}")
 print(f"===============================================================================")
@@ -30,5 +31,8 @@ if ask_user == "yes":
   print(f"Total Count: {n}")
 else:
   print("Script exited successfully")
+
+# Execute Statement:   python3 ec2_instance.py "ami-rhjkskjfdhkjsh" "t2.micro" pyuser1 1 1
+# here pyuser1 file need to exist in aws as well in local machine
   
 
