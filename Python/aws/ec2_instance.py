@@ -12,7 +12,7 @@ args = parse.parse_args()
 ec2 = boto3.resource("ec2")
 
 
-ec2.create_instances(ImageId=args.ami, InstanceType=args.type, keyName=args.key, MinCount=args.min, MaxCount=args.max)
+ec2.create_instances(ImageId=args.ami, InstanceType=args.type, KeyName=args.key, MinCount=args.min, MaxCount=args.max)
 print("EC2 instance created")
 print(f"Instance type: {args.type}")
 print(f"Key Used: {args.key}")
