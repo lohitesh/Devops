@@ -1,0 +1,22 @@
+import boto3
+
+# AWS Configuration
+AWS_REGION = "us-east-1"
+EC2 = boto3.client("ec2", region_name=AWS_REGION)
+
+# Function to delete unused EC2 instances
+def cleanup_ec2_instances():
+    instances = EC2.describe_instances(
+        Filters=[{"Name": "instance-state-name", "Values": ["stopped"]}]
+    )
+    
+    instance_ids = [instance["InstanceId"] for res in instances["Reservations"] for instance in res["Instances"]]
+    
+    if instance_ids:
+        print(f"🛑 Terminating instances: {instance_ids}")
+        EC2.terminate_instances(InstanceIds=instance_ids)
+    else:
+        print("✅ No stopped instances found.")
+
+if __name__ == "__main__":
+    cleanup_ec2_instances()
