@@ -1,0 +1,5 @@
+---
+tomcat_version: "10.1.34"  # Spec# Variables file
+vars:
+  # Define variables here
+  tomcat_url: "https://downloads.apache.org/tomcat/tomcat-{{ tomcat_version }}/v{{ tomcat_version }}/bin/apache-tomcat-{{ tomcat_version }}.tar.gz"

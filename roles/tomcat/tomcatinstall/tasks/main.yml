@@ -1,0 +1,54 @@
+---
+# roles/tomcat/tasks/main.yml
+
+- name: Install Java
+  apt:
+    name: openjdk-11-jdk
+    state: present
+    update_cache: yes
+
+- name: Create Tomcat user
+  user:
+    name: tomcat
+    shell: /bin/false
+
+- name: Create Tomcat directory
+  file:
+    path: /opt/tomcat
+    state: directory
+    owner: tomcat
+    group: tomcat
+    mode: '0755'
+
+- name: Download Tomcat
+  get_url:
+    url: "https://dlcdn.apache.org/tomcat/tomcat-10/v10.1.34/bin/apache-tomcat-10.1.34.tar.gz"
+    dest: /tmp/tomcat.tar.gz
+
+- name: Extract Tomcat
+  unarchive:
+    src: /tmp/tomcat.tar.gz
+    dest: /opt/tomcat
+    remote_src: yes
+    owner: tomcat
+    group: tomcat
+
+- name: Set permissions
+  file:
+    path: /opt/tomcat/apache-tomcat-9.0.62
+    state: directory
+    owner: tomcat
+    group: tomcat
+    mode: '0755'
+
+- name: Create systemd service file for Tomcat
+  template:
+    src: tomcat.service.j2
+    dest: /etc/systemd/system/tomcat.service
+  notify: restart tomcat
+
+- name: Start Tomcat
+  systemd:
+    name: tomcat
+    state: started
+    enabled: yes

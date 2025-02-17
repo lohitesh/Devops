@@ -1,0 +1,5 @@
+---
+#defaults file for tomc---
+# roles/tomcat/defaults/main.yml
+
+tomcat_version: "10.1.34"
