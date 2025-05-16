@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+spec:
+  containers:
+  - name: nginx
+    image: nginx:1.14.2
+    ports:
+    - containerPort: 80
+
+
+// kubectl create -f pod.yml                --- pod will be created
+// kubectl get pods                         --- display pod which is created
+// kubectl get pods -o wide                 --- display pod along with node name where it was deployed
+// kubectl describe pod podname             --- display pod with more details
+// kubectl logs podname                     --- display logs of the pod
