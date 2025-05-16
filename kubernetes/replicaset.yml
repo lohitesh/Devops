@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: nginx-replicaset
+  labels:
+    app: nginx
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.14.2
+        ports:
+        - containerPort: 80
+
+
+// kubectl get rs              --- display no of replicas of each pod
+// kubectl describe rs replicaset_name
+// kubectl get pods            -- display number of pod ( number is equal to replicas)
+// kubectl delete pod podname  -- if we delete pod then it will recreate in case of replicas or deploytment
