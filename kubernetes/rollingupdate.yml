@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  labels:
+    app: nginx
+spec:
+  replicas: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1          # How many pods can be created above the desired number during the update
+      maxUnavailable: 1    # How many pods can be unavailable during the update
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.14.2
+        ports:
+        - containerPort: 80
+
+// once deployed change the version from 1.14.2 to stable i.e nginx:stable
+// kubectl apply -f deployment.yml
+// once u update the version and execute above command. After that immediately execute commands kubectl get pods so that it will show terminating old pods and deploying new pods
+// kubectl rollout undo deployment/nginx-deployment         ---- to undo the revision
+// kubectl rollout history deployment/nginx-deployment      ---- to get the revision history so that we can view revision number
+// kubectl rollout undo deployment/nginx-deployment --to-revision=2       --- to revert back to specific version revision number u can get from history commands
+
+
+
