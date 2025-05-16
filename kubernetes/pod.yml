@@ -15,3 +15,4 @@ spec:
 // kubectl get pods -o wide                 --- display pod along with node name where it was deployed
 // kubectl describe pod podname             --- display pod with more details
 // kubectl logs podname                     --- display logs of the pod
+// kubectl delete pod podname               --- if we delete pod then pod is deleted only if object is pod
