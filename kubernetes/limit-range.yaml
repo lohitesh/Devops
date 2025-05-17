@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: container-limits
+  namespace: dev-team
+spec:
+  limits:
+  - default:
+      cpu: "500m"
+      memory: "512Mi"
+    defaultRequest:
+      cpu: "250m"
+      memory: "256Mi"
+    type: Container
+
+# If a container doesn’t specify CPU/memory in deployment yaml file, it gets: Request: 250m CPU, 256Mi memory Limit: 500m CPU, 512Mi memory
+# This avoids “unbounded” containers that could consume excess resources.
+# Requests in deployment yaml file must be lest than or equal requests in limit range yaml file. Same for Limit as well
