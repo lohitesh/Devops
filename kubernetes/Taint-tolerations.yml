@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: with-toleration
+spec:
+  containers:
+  - name: nginx
+    image: nginx
+  tolerations:
+  - key: "env"
+    operator: "Equal"
+    value: "prod"
+    effect: "NoSchedule"
+
+
+
+
+
+# kubectl taint nodes <node-name> key=value:NoSchedule          ---- To taint a node.
+# If you taint a node with two different taints and your Pod tolerates only one of them. then the Pod will not be scheduled on that node.
