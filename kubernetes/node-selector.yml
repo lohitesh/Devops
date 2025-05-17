@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-on-specific-node
+spec:
+  containers:
+  - name: nginx
+    image: nginx
+  nodeSelector:
+    disktype: ssd
+
+
+# kubectl get nodes --show-labels           -------- to show assigned labels for specific node
+# kubectl label node <node-name> color=red or kubectl label nodes <node-name> disktype=ssd      -- to label for node
+
+
