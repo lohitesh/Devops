@@ -1,0 +1,26 @@
+# kubectl get nodes
+# kubectl label nodes <node-name> disktype=ssd      Label a node
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-ssd
+spec:
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: disktype
+            operator: In
+            values:
+            - ssd
+  containers:
+  - name: nginx
+    image: nginx
+
+
+#kubectl apply -f pod-node-affinity.yaml
+#kubectl get pods -o wide
+# The pod will only run on a node labeled with disktype=ssd.
+
