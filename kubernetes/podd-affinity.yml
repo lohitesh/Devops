@@ -1,0 +1,65 @@
+# base-pod.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: base-pod
+  labels:
+    app: demo
+spec:
+  containers:
+  - name: nginx
+    image: nginx
+
+
+# kubectl apply -f base-pod.yaml      ------ execute above file first
+# Deploy another pod using below code
+
+
+# pod-affinity.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: affinity-pod
+spec:
+  affinity:
+    podAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+      - labelSelector:
+          matchExpressions:
+          - key: app
+            operator: In
+            values:
+            - demo
+        topologyKey: "kubernetes.io/hostname"
+  containers:
+  - name: nginx
+    image: nginx
+
+# To check whether pod is deployed in node which contain base pod or different node execute below commands
+# kubectl apply -f pod-affinity.yaml
+# kubectl get pods -o wide
+# This pod will be scheduled on the same node as the base-pod, because it looks for another pod with app=demo.
+
+
+
+# pod-anti-affinity.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: anti-affinity-pod
+spec:
+  affinity:
+    podAntiAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+      - labelSelector:
+          matchExpressions:
+          - key: app
+            operator: In
+            values:
+            - demo
+        topologyKey: "kubernetes.io/hostname"
+  containers:
+  - name: nginx
+    image: nginx
+
+# This pod will be scheduled on a different node than pods with label app=demo.
