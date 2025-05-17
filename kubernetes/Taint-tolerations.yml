@@ -18,3 +18,18 @@ spec:
 
 # kubectl taint nodes <node-name> key=value:NoSchedule          ---- To taint a node.
 # If you taint a node with two different taints and your Pod tolerates only one of them. then the Pod will not be scheduled on that node.
+
+
+#kubectl taint nodes node1 env=prod:NoSchedule
+#kubectl taint nodes node1 team=backend:NoSchedule
+# then pod has to be tolerated with bot the values otherwise node will not accept pod
+tolerations:
+- key: "team"
+  operator: "Equal"
+  value: "backend"
+  effect: "NoSchedule"
+- key: "env"
+  operator: "Equal"
+  value: "prod"
+  effect: "NoSchedule"
+
