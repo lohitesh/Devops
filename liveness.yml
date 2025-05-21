@@ -1,0 +1,65 @@
+# nginx-probes-demo.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-probe-demo
+spec:
+  containers:
+  - name: nginx
+    image: nginx:1.25
+    ports:
+    - containerPort: 80
+    livenessProbe:
+      httpGet:
+        path: /
+        port: 80
+      initialDelaySeconds: 5
+      periodSeconds: 5
+    readinessProbe:
+      httpGet:
+        path: /
+        port: 80
+      initialDelaySeconds: 5
+      periodSeconds: 5
+
+// Describe pod and check both liveness and readiness probes succeeding. kubectl describe pod nginx-probe-demo 
+
+kubectl patch pod nginx-probe-demo -p '{
+  "spec": {
+    "containers": [{
+      "name": "nginx",
+      "livenessProbe": {
+        "httpGet": {
+          "path": "/invalid",
+          "port": 80
+        },
+        "initialDelaySeconds": 5,
+        "periodSeconds": 5,
+        "failureThreshold": 1
+      }
+    }]
+  }
+}'
+# kubectl get pod nginx-probe-demo -w              you will see the pod restart repeatedly due to failed liveness probe (NGINX returns 404 for /invalid).
+
+kubectl patch pod nginx-probe-demo -p '{
+  "spec": {
+    "containers": [{
+      "name": "nginx",
+      "readinessProbe": {
+        "httpGet": {
+          "path": "/not-ready",
+          "port": 80
+        },
+        "initialDelaySeconds": 5,
+        "periodSeconds": 5
+      }
+    }]
+  }
+}'
+
+
+# kubectl get pod nginx-probe-demo
+# kubectl describe pod nginx-probe-demo  The pod stays Running, but status shows 0/1 — not ready, removed from service endpoints.
+
+
