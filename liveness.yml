@@ -41,7 +41,7 @@ kubectl patch pod nginx-probe-demo -p '{
   }
 }'
 # kubectl get pod nginx-probe-demo -w              you will see the pod restart repeatedly due to failed liveness probe (NGINX returns 404 for /invalid).
-
+# kubectl describe pod podname
 kubectl patch pod nginx-probe-demo -p '{
   "spec": {
     "containers": [{
