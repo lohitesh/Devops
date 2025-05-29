@@ -1,0 +1,44 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-volume-pod
+spec:
+  volumes:
+    - name: html-volume
+      emptyDir: {}
+
+  initContainers:
+    - name: init-html
+      image: busybox
+      command: ["/bin/sh", "-c"]
+      args:
+        - |
+          echo "<html><body><h1>Hello from NGINX Volume!</h1></body></html>" > /usr/share/nginx/html/index.html
+      volumeMounts:
+        - name: html-volume
+          mountPath: /usr/share/nginx/html
+
+  containers:
+    - name: nginx
+      image: nginx
+      ports:
+        - containerPort: 80
+      volumeMounts:
+        - name: html-volume
+          mountPath: /usr/share/nginx/html
+
+
+  # After deployment use below line Open your browser and go to: http://localhost:8080 u need to see Hello from NGINX Volume!
+
+  # emptydir
+# emptyDir is a temporary, empty volume that is created when the Pod is assigned to a Node.
+# It is initially empty.
+# It lives as long as the Pod runs.
+# When the Pod is deleted or crashes, all data in the emptyDir is lost.
+
+#Init Container
+# An initContainer is a special type of container that runs before the main application containers in a Pod. It completes its task and exits, after which the main containers start.
+
+
+
+
