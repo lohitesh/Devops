@@ -1,0 +1,63 @@
+# A Persistent Volume is a piece of storage in your cluster that Kubernetes can use like a hard drive.
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: html-pv
+spec:
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: /tmp/html-data
+
+# above code will use path /tmp/html-data on local host
+# This says: "Hey Kubernetes, here's a 1GB storage space available for use."
+
+# A Persistent Volume Claim is a request by a user (or a Pod) for storage. It asks for a certain amount (e.g., 1GB) and access type (read/write).
+#pvc.yml
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: html-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Mi
+# This says: "I need 1GB of space that I can write to. Please find a matching volume."
+# 👉 Kubernetes automatically finds a suitable PV that matches the PVC and binds them.
+
+# create a index.html file
+
+sudo mkdir -p /tmp/html-data
+echo "<h1>Hello from Persistent Volume!</h1>" | sudo tee /tmp/html-data/index.html
+exit
+
+
+#pod.yml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-pv-pod
+spec:
+  containers:
+    - name: nginx
+      image: nginx
+      ports:
+        - containerPort: 80
+      volumeMounts:
+        - mountPath: /usr/share/nginx/html
+          name: html-volume
+  volumes:
+    - name: html-volume
+      persistentVolumeClaim:
+        claimName: html-pvc
+
+# This says: "Mount the storage provided by my-pvc into the container at /usr/share/nginx/html."
+
+# ReadWriteOnce (RWO) : One node can read and write. 🚫 Can't be used by multiple nodes at the same time
+# ReadOnlyMany (ROX) : ✅ Multiple nodes can read 🚫 None can write
+# ReadWriteMany (RWX): ✅ Multiple nodes can read and write ❗ Not supported by all volume types
