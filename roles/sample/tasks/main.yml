@@ -12,4 +12,5 @@
   template:
     src: templates/3.j2
     dest: /home/ec2-user/
+  notify: restart_tomcat
  
