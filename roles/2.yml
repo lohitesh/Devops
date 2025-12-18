@@ -3,4 +3,3 @@
   hosts: all
   roles:
     - sample
-- notify: restart_tomcat
