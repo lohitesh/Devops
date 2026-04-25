@@ -50,15 +50,28 @@ resource "aws_instance" "web" {
     host        = self.public_ip
   }
 
+
+#local provisioner 
+#👉 Uses && so next command runs only if previous succeeds.
+provisioner "local-exec" {
+  command = "echo Instance IP is ${self.public_ip} && echo RUNNING"
+}
+
+
+
+#file provisioner
+provisioner "file" {
+  source      = "local-file-path"
+  destination = "remote-file-path"
+}
+
+
   # Remote exec provisioner
   provisioner "remote-exec" {
     inline = [
       "echo Connected to server",
       "sudo apt update -y",
-      "sudo apt install -y nginx",
-      "sudo systemctl start nginx",
-      "sudo systemctl enable nginx",
-      "echo '<h1>Deployed via Terraform remote-exec</h1>' | sudo tee /var/www/html/index.html"
+      "sudo apt install maven -y"
     ]
   }
 }
