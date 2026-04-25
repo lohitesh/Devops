@@ -61,8 +61,8 @@ provisioner "local-exec" {
 
 #file provisioner
 provisioner "file" {
-  source      = "local-file-path"
-  destination = "remote-file-path"
+  source      = "/home/ubuntu/1.txt" #local server path from where it has to copy
+  destination = "/home/ubuntu/day1/1.txt" #remote server path where need to copy
 }
 
 
